@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  novel-reader:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./public/images:/app/public/images
+      - ./novel-data:/app/novel-data
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    container_name: novel-reader-app

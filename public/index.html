@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小说阅读器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="container">
+                <h1 class="logo">小说阅读器</h1>
+                <nav class="nav">
+                    <button class="nav-btn" id="homeBtn">首页</button>
+                    <button class="nav-btn" id="chaptersBtn">章节列表</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main">
+            <!-- 封面页面 -->
+            <div class="cover-page" id="coverPage">
+                <div class="container">
+                    <div class="novel-info">
+                        <div class="cover-image">
+                            <img src="/images/cover.jpg" alt="小说封面" id="coverImg">
+                        </div>
+                        <div class="novel-details">
+                            <h2 class="novel-title" id="novelTitle">加载中...</h2>
+                            <p class="novel-author" id="novelAuthor">作者：加载中...</p>
+                            <p class="novel-description" id="novelDescription">简介：加载中...</p>
+                            <button class="start-reading-btn" id="startReadingBtn">开始阅读</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 章节列表页面 -->
+            <div class="chapters-page hidden" id="chaptersPage">
+                <div class="container">
+                    <h2 class="page-title">章节列表</h2>
+                    <div class="chapters-list" id="chaptersList">
+                        <!-- 章节列表将在这里动态生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阅读页面 -->
+            <div class="reading-page hidden" id="readingPage">
+                <div class="container">
+                    <div class="reading-header">
+                        <button class="back-btn" id="backBtn">← 返回</button>
+                        <h2 class="chapter-title" id="chapterTitle">章节标题</h2>
+                        <div class="reading-controls">
+                            <button class="control-btn" id="prevChapterBtn">上一章</button>
+                            <button class="control-btn" id="nextChapterBtn">下一章</button>
+                        </div>
+                    </div>
+                    <div class="reading-content">
+                        <div class="chapter-content" id="chapterContent">
+                            <!-- 章节内容将在这里显示 -->
+                        </div>
+                    </div>
+                    <div class="reading-footer">
+                        <button class="control-btn" id="prevChapterBtn2">上一章</button>
+                        <span class="chapter-info" id="chapterInfo">第1章 / 共5章</span>
+                        <button class="control-btn" id="nextChapterBtn2">下一章</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 小说阅读器. 保留所有权利.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

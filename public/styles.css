@@ -1,0 +1,342 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 头部样式 */
+.header {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 20px;
+}
+
+.logo {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-btn {
+    background: none;
+    border: 2px solid #3498db;
+    color: #3498db;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.nav-btn:hover {
+    background: #3498db;
+    color: white;
+}
+
+.nav-btn.active {
+    background: #3498db;
+    color: white;
+}
+
+/* 主要内容区域 */
+.main {
+    min-height: calc(100vh - 140px);
+    padding: 2rem 0;
+}
+
+/* 封面页面样式 */
+.cover-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    margin: 2rem 0;
+    overflow: hidden;
+}
+
+.novel-info {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem;
+}
+
+.cover-image {
+    flex-shrink: 0;
+}
+
+.cover-image img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.novel-details {
+    flex: 1;
+}
+
+.novel-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.novel-author {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.novel-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.start-reading-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.start-reading-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 章节列表页面样式 */
+.chapters-page {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.page-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.chapters-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.chapter-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chapter-item:hover {
+    background: #e3f2fd;
+    border-color: #3498db;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.chapter-item h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.chapter-item p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* 阅读页面样式 */
+.reading-page {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.reading-header {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #2980b9;
+}
+
+.chapter-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.reading-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.control-btn:hover {
+    background: #229954;
+}
+
+.control-btn:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+
+.reading-content {
+    padding: 2rem;
+    min-height: 500px;
+}
+
+.chapter-content {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #2c3e50;
+    text-align: justify;
+}
+
+.reading-footer {
+    background: #ecf0f1;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chapter-info {
+    color: #7f8c8d;
+    font-weight: bold;
+}
+
+/* 页脚样式 */
+.footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+/* 工具类 */
+.hidden {
+    display: none !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .novel-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .cover-image img {
+        width: 250px;
+        height: 350px;
+    }
+    
+    .novel-title {
+        font-size: 2rem;
+    }
+    
+    .reading-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .reading-controls {
+        justify-content: center;
+    }
+    
+    .reading-footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .novel-info {
+        padding: 2rem 1rem;
+    }
+    
+    .cover-image img {
+        width: 200px;
+        height: 280px;
+    }
+    
+    .novel-title {
+        font-size: 1.5rem;
+    }
+}
