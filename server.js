@@ -26,27 +26,58 @@ function loadChapters() {
   try {
     if (!fs.existsSync(chaptersDir)) {
       fs.mkdirSync(chaptersDir, { recursive: true });
+      console.log('创建chapters目录');
       return chapters;
     }
     
     const files = fs.readdirSync(chaptersDir);
     const txtFiles = files.filter(file => file.endsWith('.txt'));
     
-    txtFiles.forEach((file) => {
-      const filePath = path.join(chaptersDir, file);
-      const content = fs.readFileSync(filePath, 'utf8');
-      const chapterName = path.basename(file, '.txt');
-      
-      // 提取文件名中的数字
-      const numberMatch = chapterName.match(/\d+/);
-      const chapterNumber = numberMatch ? parseInt(numberMatch[0]) : 0;
-      
-      chapters.push({
-        id: chapterNumber,
-        title: chapterName,
-        content: content,
-        fileName: file
-      });
+    console.log(`找到 ${txtFiles.length} 个txt文件`);
+    
+    txtFiles.forEach((file, index) => {
+      try {
+        const filePath = path.join(chaptersDir, file);
+        
+        // 检查文件是否存在且可读
+        if (!fs.existsSync(filePath)) {
+          console.warn(`文件不存在: ${filePath}`);
+          return;
+        }
+        
+        // 获取文件状态
+        const stats = fs.statSync(filePath);
+        if (!stats.isFile()) {
+          console.warn(`不是文件: ${filePath}`);
+          return;
+        }
+        
+        // 检查文件大小，避免读取过大的文件
+        const maxFileSize = 10 * 1024 * 1024; // 10MB
+        if (stats.size > maxFileSize) {
+          console.warn(`文件过大，跳过: ${file} (${stats.size} bytes)`);
+          return;
+        }
+        
+        const content = fs.readFileSync(filePath, 'utf8');
+        const chapterName = path.basename(file, '.txt');
+        
+        // 提取文件名中的数字
+        const numberMatch = chapterName.match(/\d+/);
+        const chapterNumber = numberMatch ? parseInt(numberMatch[0]) : 0;
+        
+        chapters.push({
+          id: chapterNumber,
+          title: chapterName,
+          content: content,
+          fileName: file
+        });
+        
+        console.log(`成功加载章节: ${chapterName}`);
+        
+      } catch (fileError) {
+        console.error(`读取文件失败 ${file}:`, fileError.message);
+      }
     });
     
     // 按文件名中的数字排序
@@ -56,6 +87,8 @@ function loadChapters() {
     chapters.forEach((chapter, index) => {
       chapter.id = index + 1;
     });
+    
+    console.log(`成功加载 ${chapters.length} 个章节`);
     
   } catch (error) {
     console.error('读取章节文件失败:', error);
