@@ -7,7 +7,7 @@ services:
       - "3000:3000"
     volumes:
       - ./public/images:/app/public/images
-      - ./novel-data:/app/novel-data
+      - ./chapters:/app/chapters
     environment:
       - NODE_ENV=production
       - PORT=3000
