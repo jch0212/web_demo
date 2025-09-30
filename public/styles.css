@@ -261,6 +261,15 @@ body {
     text-align: justify;
 }
 
+.chapter-content p {
+    margin-bottom: 1.5rem;
+    text-indent: 2em;
+}
+
+.chapter-content p:first-child {
+    text-indent: 0;
+}
+
 .reading-footer {
     background: #ecf0f1;
     padding: 1rem 2rem;

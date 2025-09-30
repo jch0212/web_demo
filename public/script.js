@@ -46,6 +46,18 @@ function updateCoverPage() {
     novelTitle.textContent = novelData.title;
     novelAuthor.textContent = `作者：${novelData.author}`;
     novelDescription.textContent = `简介：${novelData.description}`;
+    
+    // 确保图片正确加载
+    const coverImg = document.getElementById('coverImg');
+    if (coverImg) {
+        coverImg.onerror = function() {
+            console.error('封面图片加载失败');
+            this.style.display = 'none';
+        };
+        coverImg.onload = function() {
+            console.log('封面图片加载成功');
+        };
+    }
 }
 
 // 更新章节列表
@@ -76,7 +88,9 @@ async function loadChapter(chapterId) {
         const chapter = await response.json();
         
         chapterTitle.textContent = chapter.title;
-        chapterContent.textContent = chapter.content;
+        // 将文本内容按段落分割并正确显示
+        const paragraphs = chapter.content.split('\n\n').filter(p => p.trim());
+        chapterContent.innerHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
         
         const totalChapters = novelData.chapters.length;
         chapterInfo.textContent = `第${chapterId}章 / 共${totalChapters}章`;
