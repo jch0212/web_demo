@@ -1,88 +1,76 @@
 #!/bin/bash
 
-# 使用原生Docker命令的部署脚本
-echo "开始使用原生Docker部署..."
+# Docker Compose 部署脚本
+echo "=== 小说阅读器 Docker Compose 部署 ==="
 
-# 检查系统信息
-echo "=== 系统信息 ==="
-uname -a
-echo "内存信息:"
-free -h
-
-# 检查Docker状态
-echo "=== Docker状态 ==="
-docker --version
-docker system df
-
-# 停止现有容器
-echo "=== 停止现有容器 ==="
-docker stop novel-reader-app 2>/dev/null || true
-docker rm novel-reader-app 2>/dev/null || true
-
-# 清理Docker缓存
-echo "=== 清理Docker缓存 ==="
-docker system prune -f
-
-# 创建必要目录
-echo "=== 创建目录 ==="
-mkdir -p chapters
-mkdir -p public/images
-
-# 检查chapters目录
-echo "=== 检查chapters目录 ==="
-ls -la chapters/
-
-# 构建镜像
-echo "=== 构建镜像 ==="
-docker build -t novel-reader:latest .
-
-# 检查镜像是否构建成功
-if docker images | grep -q novel-reader; then
-    echo "✅ 镜像构建成功"
-else
-    echo "❌ 镜像构建失败"
+# 检查Docker和Docker Compose是否安装
+if ! command -v docker &> /dev/null; then
+    echo "❌ Docker未安装，请先安装Docker"
     exit 1
 fi
 
-# 启动容器
-echo "=== 启动容器 ==="
-docker run -d \
-    --name novel-reader-app \
-    --restart unless-stopped \
-    -p 3000:3000 \
-    -v $(pwd)/chapters:/app/chapters \
-    -v $(pwd)/public/images:/app/public/images \
-    -e NODE_ENV=production \
-    -e PORT=3000 \
-    --memory=1g \
-    --cpus=0.5 \
-    novel-reader:latest
+# 检查Docker Compose（新版本使用 docker compose）
+if ! docker compose version &> /dev/null; then
+    echo "❌ Docker Compose未安装，请先安装Docker Compose"
+    exit 1
+fi
 
-# 等待启动
-echo "=== 等待应用启动 ==="
-sleep 15
+# 检查项目文件
+if [ ! -f "docker-compose.yml" ]; then
+    echo "❌ 未找到docker-compose.yml文件"
+    exit 1
+fi
 
-# 检查容器状态
-echo "=== 容器状态 ==="
-docker ps | grep novel-reader-app
+# 创建必要目录
+echo "=== 创建必要目录 ==="
+mkdir -p chapters public/images
 
-# 检查日志
-echo "=== 应用日志 ==="
-docker logs novel-reader-app --tail=20
+# 检查章节文件
+echo "=== 检查章节文件 ==="
+if [ ! -d "chapters" ] || [ -z "$(ls -A chapters 2>/dev/null)" ]; then
+    echo "⚠️  警告：chapters目录为空，请添加章节txt文件"
+    echo "   章节文件应放在 chapters/ 目录中"
+fi
 
-# 检查容器资源使用
-echo "=== 容器资源使用 ==="
-docker stats novel-reader-app --no-stream
+# 停止现有容器
+echo "=== 停止现有容器 ==="
+docker compose down 2>/dev/null || true
 
-# 测试API
-echo "=== 测试API ==="
-curl -f http://localhost:3000/api/novel || echo "API测试失败"
+# 清理旧镜像（可选）
+echo "=== 清理Docker缓存 ==="
+docker system prune -f
 
-echo "部署完成！"
-echo "访问地址: http://your-server-ip:3000"
-echo ""
-echo "管理命令:"
-echo "  查看日志: docker logs novel-reader-app -f"
-echo "  重启容器: docker restart novel-reader-app"
-echo "  停止容器: docker stop novel-reader-app"
-echo "  删除容器: docker rm novel-reader-app"
+# 构建并启动服务
+echo "=== 构建并启动服务 ==="
+docker compose up -d --build
+
+# 等待服务启动
+echo "=== 等待服务启动 ==="
+sleep 20
+
+# 检查服务状态
+echo "=== 检查服务状态 ==="
+if docker compose ps | grep -q "Up"; then
+    echo "✅ 服务启动成功"
+    
+    # 获取服务器IP
+    SERVER_IP=$(curl -s ifconfig.me 2>/dev/null || echo "localhost")
+    
+    echo ""
+    echo "🎉 部署完成！"
+    echo "访问地址: http://$SERVER_IP:3000"
+    echo "本地访问: http://localhost:3000"
+    echo ""
+    echo "管理命令:"
+    echo "  查看状态: docker compose ps"
+    echo "  查看日志: docker compose logs -f"
+    echo "  重启服务: docker compose restart"
+    echo "  停止服务: docker compose down"
+    echo "  更新服务: docker compose up -d --build"
+    
+else
+    echo "❌ 服务启动失败"
+    echo "查看日志:"
+    docker compose logs
+    exit 1
+fi
